@@ -2,6 +2,9 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Capture Result</title>
   <style>
     body { font-family: monospace; padding: 20px; background: #f5f5f5; }
@@ -14,9 +17,9 @@
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const pid = params.get("data");
-    document.getElementById("output").textContent = pid
-      ? decodeURIComponent(pid)
+    const data = params.get("data");
+    document.getElementById("output").textContent = data
+      ? decodeURIComponent(data)
       : "No data received.";
   </script>
 </body>
