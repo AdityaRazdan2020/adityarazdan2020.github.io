@@ -14,7 +14,7 @@
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const pid = params.get("pid");
+    const pid = params.get("data");
     document.getElementById("output").textContent = pid
       ? decodeURIComponent(pid)
       : "No data received.";
