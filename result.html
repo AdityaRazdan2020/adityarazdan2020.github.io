@@ -2,9 +2,6 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <title>Capture Result</title>
   <style>
     body { font-family: monospace; padding: 20px; background: #f5f5f5; }
@@ -16,11 +13,26 @@
   <pre id="output">Loading...</pre>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const data = params.get("data");
-    document.getElementById("output").textContent = data
-      ? decodeURIComponent(data)
-      : "No data received.";
+    const hash = window.location.hash.substring(1);
+    const params = new URLSearchParams(hash);
+    const b64 = params.get("data");
+
+    if (b64) {
+      try {
+        let standard = b64.replace(/-/g, '+').replace(/_/g, '/');
+        while (standard.length % 4) standard += '=';
+
+        const binary = atob(standard);
+        const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+        const decoded = new TextDecoder('utf-8').decode(bytes);
+
+        document.getElementById("output").textContent = decoded;
+      } catch (e) {
+        document.getElementById("output").textContent = "Failed to decode data: " + e;
+      }
+    } else {
+      document.getElementById("output").textContent = "No data received.";
+    }
   </script>
 </body>
 </html>
